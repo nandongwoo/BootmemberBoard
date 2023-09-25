@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{component/config :: config}"></th:block>
+</head>
+<body>
+<div th:replace="~{component/header :: header}"></div>
+<div th:replace="~{component/nav :: nav}"></div>
+<div>
+    <table class="table table-hover text-center">
+        <tr>
+            <th>id</th>
+            <th>이메일</th>
+            <th>이름</th>
+            <th>전화번호</th>
+            <th>생년월일</th>
+            <th>조회</th>
+            <th>수정</th>
+            <th>삭제</th>
+        </tr>
+        <tr th:each="member : ${memberList}">
+            <td>
+                <a th:href="@{|/member/detail/${member.id}|}" th:text="${member.id}"></a>
+            </td>
+            <td th:text="|이메일 : ${member.memberEmail}|"></td>
+            <td th:text="|이름 : ${member.memberName}|"></td>
+            <td th:text="|전화번호 : ${member.memberMobile}|"></td>
+            <td th:text="|생년월일 : ${member.memberBirth}|"></td>
+            <td>
+                <button th:onclick="detail([[${member.id}]])">조회</button>
+            </td>
+            <td>
+                <button th:onclick="update_fn([[${member.id}]])">수정</button>
+            </td>
+            <td>
+                <button th:onclick="delete_fn([[${member.id}]])">삭제</button>
+            </td>
+        </tr>
+    </table>
+</div>
+<div th:replace="~{component/footer :: footer}"></div>
+</body>
+<script>
+    const update_fn = (id) => {
+        location.href=`/member/update/${id}`;
+    }
+
+    const delete_fn = (id) => {
+        location.href=`/member/delete/${id}`;
+
+    }
+</script>
+</html>

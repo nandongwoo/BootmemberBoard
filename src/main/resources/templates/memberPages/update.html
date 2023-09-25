@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="~{component/config :: config}"></th:block>
+</head>
+<body>
+<div th:replace="~{component/header :: header}"></div>
+<div th:replace="~{component/nav :: nav}"></div>
+<div>
+    <h2>수정</h2>
+    <div>
+        <table>
+            <form action="/member/update" method="post">
+                <input name="id" type="hidden" th:value="${member.id}">
+                이메일 : <input name="memberEmail" type="text" th:placeholder="${member.memberEmail}" th:value="${member.memberEmail}"><br>
+                비밀번호 : <input name="memberPassword" type="text" th:placeholder="${member.memberPassword}" th:value="${member.memberPassword}"><br>
+                이름 : <input name="memberName" type="text" th:placeholder="${member.memberName}" th:value="${member.memberName}"><br>
+                생년월일 : <input name="memberBirth" type="date" th:placeholder="${member.memberBirth}" th:value="${member.memberBirth}"><br>
+                전화번호 : <input name="memberMobile" type="text" th:placeholder="${member.memberMobile}" th:value="${member.memberMobile}"><br>
+                <button class="btn btn-outline-primary" type="submit">수정</button>
+            </form>
+        </table>
+    </div>
+</div>
+<div th:replace="~{component/footer :: footer}"></div>
+</body>
+</html>
