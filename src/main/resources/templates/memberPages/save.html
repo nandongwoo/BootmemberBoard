@@ -26,7 +26,7 @@
 </body>
 <script th:inline="javascript">
     const email_check = () => {
-        const email = document.querySelector(`[name="mamberEmail"]`).value;
+        const email = document.querySelector('[name="memberEmail"]').value;
         axios({
             method: "post", // http request method(get, post, put, delete....)
             url: "/member/dup-check",

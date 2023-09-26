@@ -13,15 +13,46 @@
             <form action="/member/update" method="post">
                 <input name="id" type="hidden" th:value="${member.id}">
                 이메일 : <input name="memberEmail" type="text" th:placeholder="${member.memberEmail}" th:value="${member.memberEmail}"><br>
-                비밀번호 : <input name="memberPassword" type="text" th:placeholder="${member.memberPassword}" th:value="${member.memberPassword}"><br>
                 이름 : <input name="memberName" type="text" th:placeholder="${member.memberName}" th:value="${member.memberName}"><br>
                 생년월일 : <input name="memberBirth" type="date" th:placeholder="${member.memberBirth}" th:value="${member.memberBirth}"><br>
-                전화번호 : <input name="memberMobile" type="text" th:placeholder="${member.memberMobile}" th:value="${member.memberMobile}"><br>
-                <button class="btn btn-outline-primary" type="submit">수정</button>
+                전화번호 : <input name="memberMobile" type="text" th:placeholder="${member.memberMobile}" th:value="${member.memberMobile}"><br><br>
+
+                비밀번호확인 : <input name="memberPassword" type="password" th:placeholder="${member.memberPassword}"><br>
+                <button class="btn btn-outline-primary" onclick="update_fn()">수정</button>
             </form>
         </table>
     </div>
 </div>
 <div th:replace="~{component/footer :: footer}"></div>
 </body>
+<script>
+    const update_fn = () => {
+        const passDB = [[${member.memberPassword}]];
+        const passInput = document.querySelector('[name="memberPassword"]').value;
+        const id = document.querySelector('[name="id"]').value;
+        const name = document.querySelector('[name="memberName"]').value;
+        const birth = document.querySelector('[name="memberBirth"]').value;
+        const email = document.querySelector('[name="memberEmail"]').value;
+        const mobile = document.querySelector('[name="memberMobile"]').value;
+        if (passDB == passInput) {
+            // document.updateForm.submit();
+            axios({
+                method: "put",
+                url: `/member/${id}`,
+                data: {
+                    id: id,
+                    memberEmail: email,
+                    memberPassword: passInput,
+                    memberName: name,
+                    memberBirth: birth,
+                    memberMobile: mobile
+                }
+            }).then(res => {
+                alert("정보수정이 완료되었습니다. 로그인화면으로 이동합니다.");
+                location.href = "/member/login";
+            }).catch(err => {
+                alert("정보수정에 실패하였습니다!");
+            });
+    }
+</script>
 </html>
