@@ -12,7 +12,7 @@
     <div>
         <table>
             <form action="save" method="post">
-                계정 : <input name="memberEmail" type="text" placeholder="계정"><br>
+                계정 : <input name="memberEmail" type="text" placeholder="계정" onblur="email_check()"><br>
                 비밀번호 : <input name="memberPassword" type="text" placeholder="비밀번호"><br>
                 이름 : <input name="memberName" type="text" placeholder="이름"><br>
                 생년월일 : <input name="memberBirth" type="date" placeholder="생년월일"><br>
@@ -24,4 +24,22 @@
 </div>
 <div th:replace="~{component/footer :: footer}"></div>
 </body>
+<script th:inline="javascript">
+    const email_check = () => {
+        const email = document.querySelector(`[name="mamberEmail"]`).value;
+        axios({
+            method: "post", // http request method(get, post, put, delete....)
+            url: "/member/dup-check",
+            data: {
+                memberEmail : email
+            }
+        }).then( res => {
+            // 요청 성공 후 서버에서 200 응답
+            console.log("res", res);
+        }).catch( err => {
+            // 요청 실패 또는 서버에서 4xx, 5xx 응답
+            console.log("err", err);
+        });
+    }
+</script>
 </html>

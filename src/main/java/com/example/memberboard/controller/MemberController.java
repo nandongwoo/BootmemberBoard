@@ -4,6 +4,8 @@ import com.example.memberboard.dto.MemberDTO;
 import com.example.memberboard.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -49,7 +51,7 @@ public class MemberController {
         }
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public String list(Model model) {
         List<MemberDTO> memberDTOList = memberService.findAll();
         model.addAttribute("memberList", memberDTOList);
@@ -58,23 +60,21 @@ public class MemberController {
 
 
     @GetMapping("/detail/{id}")
-    public String detail(@PathVariable("id")Long id,
-                         Model model){
+    public String detail(@PathVariable("id") Long id,
+                         Model model) {
         try {
             MemberDTO memberDTO = memberService.findById(id);
             model.addAttribute("member", memberDTO);
             return "/memberPages/detail";
-        }catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             return "/memberPages/NotFound";
         }
     }
 
 
-
-
     @GetMapping("/update/{id}")
-    public String update(@PathVariable("id")Long id,
-                         Model model){
+    public String update(@PathVariable("id") Long id,
+                         Model model) {
         MemberDTO memberDTO = memberService.findById(id);
         model.addAttribute("member", memberDTO);
         return "/memberPages/update";
@@ -83,7 +83,7 @@ public class MemberController {
 
     @PostMapping("/update")
     public String update(@ModelAttribute MemberDTO memberDTO,
-                         Model model){
+                         Model model) {
         memberService.update(memberDTO);
         MemberDTO memberDTO1 = memberService.findById(memberDTO.getId());
         model.addAttribute("member", memberDTO1);
@@ -91,10 +91,32 @@ public class MemberController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id")Long id){
+    public String delete(@PathVariable("id") Long id) {
         memberService.delete(id);
         return "redirect:/member/list";
     }
+
+    @PostMapping("/dup-check")
+    public ResponseEntity emailCheck(@RequestBody MemberDTO memberDTO) {
+        boolean result = memberService.emailCheck(memberDTO.getMemberEmail());
+        if (result) {
+            return new ResponseEntity<>("사용가능", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("사용불가능", HttpStatus.CONFLICT);
+        }
+    }
+
+
+    @GetMapping("/axios/{id}")
+    public ResponseEntity detailAxios(@PathVariable("id") Long id) {
+        try {
+            MemberDTO memberDTO = memberService.findById(id);
+            return new ResponseEntity<>(memberDTO, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }
 
 

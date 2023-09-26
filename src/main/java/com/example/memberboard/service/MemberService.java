@@ -59,14 +59,15 @@ public class MemberService {
     }
 
     public MemberDTO findById(Long id) {
-        Optional<MemberEntity> memberEntity = memberRepository.findById(id);
-        Optional<MemberEntity> byId = memberRepository.findById(id);
-        if (byId.isPresent()) {
-            return MemberDTO.toMemberDTO(byId.get());
-        }
-        return null;
+//        Optional<MemberEntity> memberEntity = memberRepository.findById(id);
+//        Optional<MemberEntity> byId = memberRepository.findById(id);
+//        if (byId.isPresent()) {
+//            System.out.println(MemberDTO.toMemberDTO(byId.get()));
+//            return MemberDTO.toMemberDTO(byId.get());
+//        }
+//        return null;
 //         ==
-//        return MemberDTO.toMemberDTO(memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException()));
+        return MemberDTO.toMemberDTO(memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException()));
     }
 
     public void update(MemberDTO memberDTO) {
@@ -77,7 +78,34 @@ public class MemberService {
     public void delete(Long id) {
         memberRepository.deleteById(id);
     }
+
+    public boolean emailCheck(String memberEmail) {
+        Optional<MemberEntity> optionalMemberEntity = memberRepository.findByMemberEmail(memberEmail);
+        if(optionalMemberEntity.isEmpty()){
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+
+//    public MemberDTO detailAxios(Long id) {
+//
+//
+//    }
     //MemberService.class
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+

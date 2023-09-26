@@ -27,7 +27,7 @@
             <td th:text="|전화번호 : ${member.memberMobile}|"></td>
             <td th:text="|생년월일 : ${member.memberBirth}|"></td>
             <td>
-                <button th:onclick="detail([[${member.id}]])">조회</button>
+                <button th:onclick="detail_fn([[${member.id}]])">조회</button>
             </td>
             <td>
                 <button th:onclick="update_fn([[${member.id}]])">수정</button>
@@ -37,16 +37,55 @@
             </td>
         </tr>
     </table>
+    <table class="table table-hover text-center">
+        <tr id = detail-axios>
+            <td>res.id</td>
+            <td>res.memberEmail</td>
+            <td>res.memberMobile</td>
+            <td>res.memberBirth</td>
+        </tr>
+    </table>
 </div>
 <div th:replace="~{component/footer :: footer}"></div>
 </body>
-<script>
+<script th:inline="javascript">
+    const detail_fn = (id) => {
+        const detailAxios = document.getElementById("detail-axios");
+        axios({
+            method: "get",
+            url: `/member/axios/${id}`,
+            // data: {
+            //     id: id
+            // }
+        }).then(res => {
+            let output ="<table class=\"table table-striped\">\n" +
+                "    <tr>\n" +
+                "      <th>id</th>\n" +
+                "      <td>" + res.data.id + "</td>\n" +
+                "    </tr>\n" +
+                "    <tr>\n" +
+                "      <th>email</th>\n" +
+                "      <td>" + res.data.memberEmail + "</td>\n" +
+                "    </tr>\n" +
+                "    <tr>\n" +
+                "      <th>name</th>\n" +
+                "      <td>" + res.data.memberName + "</td>\n" +
+                "    </tr>\n" +
+                "  </table>";
+            detailAxios.innerHTML = output;
+        }).catch(err => {
+            console.log("err", err);
+            detailAxios.innerHTML = "조회결과가 없습니다";
+        })
+    }
+
+
     const update_fn = (id) => {
-        location.href=`/member/update/${id}`;
+        location.href = `/member/update/${id}`;
     }
 
     const delete_fn = (id) => {
-        location.href=`/member/delete/${id}`;
+        location.href = `/member/delete/${id}`;
 
     }
 </script>
