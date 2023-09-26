@@ -34,22 +34,35 @@ public class MemberController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(@RequestParam(value = "redirectURI", defaultValue = "/member/mypage") String redirectURI,
+                        Model model) {
+        model.addAttribute("redirectURI", redirectURI);
         return "/memberPages/login";
     }
 
     @PostMapping("/login")
     public String login(@ModelAttribute MemberDTO memberDTO,
-                        HttpSession httpSession) {
+                        HttpSession httpSession,
+                        @RequestParam("redirectURI") String redirectURI) {
         MemberDTO memberDTO1 = memberService.login(memberDTO);
 
         if (memberDTO1 != null) {
             httpSession.setAttribute("loginEmail", memberDTO1.getMemberEmail());
-            return "/memberPages/main";
+//            return "/memberPages/main";
+            // 사용자가 로그인 성공하면, 직전에 요청한 페이지로 이동시킴
+            // 별도로 요청한 페이지가 없다면 정상적으로 myPage로 이동시킴. (redirect:/member/mypage)
+            return "redirect:" + redirectURI;
         } else {
             return "/memberPages/login";
         }
     }
+
+    @GetMapping("/mypage")
+    public String myPage(){
+        return "memberPages/main";
+    }
+
+
 
     @GetMapping
     public String list(Model model) {

@@ -13,28 +13,31 @@
             <form action="/member/update" method="post">
                 <input name="id" type="hidden" th:value="${member.id}">
                 이메일 : <input name="memberEmail" type="text" th:placeholder="${member.memberEmail}" th:value="${member.memberEmail}"><br>
+                비밀번호 :  <input name="memberPassword" type="password" th:value="${member.memberPassword}"><br>
                 이름 : <input name="memberName" type="text" th:placeholder="${member.memberName}" th:value="${member.memberName}"><br>
                 생년월일 : <input name="memberBirth" type="date" th:placeholder="${member.memberBirth}" th:value="${member.memberBirth}"><br>
                 전화번호 : <input name="memberMobile" type="text" th:placeholder="${member.memberMobile}" th:value="${member.memberMobile}"><br><br>
 
-                비밀번호확인 : <input name="memberPassword" type="password" th:placeholder="${member.memberPassword}"><br>
-                <button class="btn btn-outline-primary" onclick="update_fn()">수정</button>
+
+                비밀번호확인 : <input name="CheckPassword" type="password"><br>
+                <input type="button"  class="btn btn-outline-primary" value="수정" onclick="update_fn()">
             </form>
         </table>
     </div>
 </div>
 <div th:replace="~{component/footer :: footer}"></div>
 </body>
-<script>
+<script th:inline="javascript">
     const update_fn = () => {
         const passDB = [[${member.memberPassword}]];
         const passInput = document.querySelector('[name="memberPassword"]').value;
+        const passCheck = document.querySelector('[name="CheckPassword"]').value;
         const id = document.querySelector('[name="id"]').value;
         const name = document.querySelector('[name="memberName"]').value;
         const birth = document.querySelector('[name="memberBirth"]').value;
         const email = document.querySelector('[name="memberEmail"]').value;
         const mobile = document.querySelector('[name="memberMobile"]').value;
-        if (passDB == passInput) {
+        if (passDB == passCheck) {
             // document.updateForm.submit();
             axios({
                 method: "put",
@@ -53,6 +56,9 @@
             }).catch(err => {
                 alert("정보수정에 실패하였습니다!");
             });
+        } else {
+            alert("비밀번호가 일치하지 않습니다!");
+        }
     }
 </script>
 </html>
