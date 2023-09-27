@@ -17,9 +17,9 @@ import java.util.Optional;
 public class MemberService {
     private final MemberRepository memberRepository;
 
-    public void save(MemberDTO memberDTO) {
+    public Long save(MemberDTO memberDTO) {
         MemberEntity memberEntity = MemberEntity.toSaveEntity(memberDTO);
-        memberRepository.save(memberEntity);
+        return memberRepository.save(memberEntity).getId();
     }
 
 
