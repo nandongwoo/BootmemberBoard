@@ -106,7 +106,7 @@ public class MemberController {
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") Long id) {
         memberService.delete(id);
-        return "redirect:/member/list";
+        return "redirect:/member/";
     }
 
     @PostMapping("/dup-check")

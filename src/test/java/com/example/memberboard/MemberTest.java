@@ -3,7 +3,7 @@ package com.example.memberboard;
 import com.example.memberboard.dto.MemberDTO;
 import com.example.memberboard.repository.MemberRepository;
 import com.example.memberboard.service.MemberService;
-// Assertion에 속한 모든 static 메서드를 사용할 때 메서드 이름만 작성해서 사용 가능하도록
+// Assertion에 속한 모든 static 메서드를 사용할 때 메서드 이름만 작성해서 사용 가능하도록 함
 import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -50,13 +50,13 @@ public class MemberTest {
     }
 
 
-    // 회원가입 기능 테스트
-    /*
+
+    /** 회원가입 기능 테스트
         1. 새로운 회원을 하나 가입시킴
         2. 가입 된 회원의 id 값을 받아옴
         3. 그 id로 조회 기능을 실행
         4. 1번에서 만든 회원의 이메일 값과 3번에서 조회한 이메일 값이 일치하면 테스트 성공
-     */
+     **/
 
 
     @Test
