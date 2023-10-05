@@ -59,15 +59,14 @@ public class MemberService {
     }
 
     public MemberDTO findById(Long id) {
-//        Optional<MemberEntity> memberEntity = memberRepository.findById(id);
-//        Optional<MemberEntity> byId = memberRepository.findById(id);
-//        if (byId.isPresent()) {
-//            System.out.println(MemberDTO.toMemberDTO(byId.get()));
-//            return MemberDTO.toMemberDTO(byId.get());
-//        }
-//        return null;
+        Optional<MemberEntity> byId = memberRepository.findById(id);
+        if (byId.isPresent()) {
+            System.out.println(MemberDTO.toMemberDTO(byId.get()));
+            return MemberDTO.toMemberDTO(byId.get());
+        }
+        return null;
 //         ==
-        return MemberDTO.toMemberDTO(memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException()));
+//        return MemberDTO.toMemberDTO(memberRepository.findById(id).orElseThrow(() -> new NoSuchElementException()));
     }
 
     public void update(MemberDTO memberDTO) {
